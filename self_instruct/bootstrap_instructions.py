@@ -223,5 +223,5 @@ if __name__ == "__main__":
                 }) + "\n")
                 progress_bar.update(1)
             request_idx += 1
-            if count >= 10:
+            if count >= 1000:
                 break
