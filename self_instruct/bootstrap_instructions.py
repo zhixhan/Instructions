@@ -177,6 +177,7 @@ if __name__ == "__main__":
                 random.shuffle(prompt_instructions)
                 prompt = encode_prompt(prompt_instructions, classification=args.use_clf_seed_tasks_only)
                 batch_inputs.append(prompt)
+            
             results = make_gpt3_requests(
                 engine=args.engine,
                 prompts=batch_inputs,
@@ -190,7 +191,6 @@ if __name__ == "__main__":
                 n=1,
                 best_of=1,
                 api_key=_api_key,
-                api_base=_api_base,
                 organization=args.organization,
             )
             instructions = []

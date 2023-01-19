@@ -1,4 +1,4 @@
-batch_dir=data/gpt3_generations/
+batch_dir=data/gpt3_generations_tmp/
 
 python self_instruct/generate_instances.py \
     --batch_dir ${batch_dir} \

@@ -6,27 +6,26 @@ import openai
 from datetime import datetime
 import argparse
 import time
-    
+import requests    
 
 def make_requests(
         engine, prompts, max_tokens, temperature, top_p, 
-        frequency_penalty, presence_penalty, stop_sequences, logprobs, n, best_of, api_key, api_base, retries=3, organization=None
+        frequency_penalty, presence_penalty, stop_sequences, logprobs, n, best_of, api_key, retries=3, organization=None
     ):
     response = None
     target_length = max_tokens
-    openai.api_type = "azure"
-    openai.api_key = api_key
-    openai.api_base = api_base
-    openai.api_version = "2022-12-01"
-    
+    api_key = os.getenv("AKEY")
     if organization is not None:
         openai.organization = organization
     retry_cnt = 0
     backoff_time = 30
     while retry_cnt <= retries:
         try:
-            response = openai.Completion.create(
-                engine=engine,
+            headers = {
+                'Authorization': 'Bearer ' + api_key,
+            }
+            parameters = dict(
+                model=engine,
                 prompt=prompts,
                 max_tokens=target_length,
                 temperature=temperature,
@@ -38,6 +37,11 @@ def make_requests(
                 n=n,
                 best_of=best_of,
             )
+            response = requests.post(
+                'https://bing-openai-wxtcsgpt35.westus2.inference.ml.azure.com/v1/engines/text-davinci-002/completions',
+                headers=headers,
+                json=parameters,
+            ).json()
             break
         except openai.error.OpenAIError as e:
             print(f"OpenAIError: {e}.")
