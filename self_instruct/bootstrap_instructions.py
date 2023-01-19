@@ -161,6 +161,8 @@ if __name__ == "__main__":
     if machine_instructions:
         progress_bar.update(len(machine_instructions))
 
+    _api_key = os.getenv("AZURE_OPENAI_API_KEY") 
+    _api_base = os.getenv("AZURE_OPENAI_ENDPOINT") 
     with open(os.path.join(args.batch_dir, "machine_generated_instructions.jsonl"), "a") as fout:
         while len(machine_instructions) < args.num_instructions_to_generate:
             batch_inputs = []
@@ -187,8 +189,8 @@ if __name__ == "__main__":
                 logprobs=1,
                 n=1,
                 best_of=1,
-                api_key=args.api_key,
-                api_base=args.api_base,
+                api_key=_api_key,
+                api_base=_api_base,
                 organization=args.organization,
             )
             instructions = []

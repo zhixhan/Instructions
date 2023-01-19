@@ -18,6 +18,7 @@ def make_requests(
     openai.api_key = api_key
     openai.api_base = api_base
     openai.api_version = "2022-12-01"
+    
     if organization is not None:
         openai.organization = organization
     retry_cnt = 0
