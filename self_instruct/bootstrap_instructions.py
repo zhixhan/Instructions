@@ -162,7 +162,7 @@ if __name__ == "__main__":
         progress_bar.update(len(machine_instructions))
 
     _api_key = os.getenv("AZURE_OPENAI_API_KEY") 
-    _api_base = os.getenv("AZURE_OPENAI_ENDPOINT") 
+    count = 0
     with open(os.path.join(args.batch_dir, "machine_generated_instructions.jsonl"), "a") as fout:
         while len(machine_instructions) < args.num_instructions_to_generate:
             batch_inputs = []
@@ -177,6 +177,8 @@ if __name__ == "__main__":
                 random.shuffle(prompt_instructions)
                 prompt = encode_prompt(prompt_instructions, classification=args.use_clf_seed_tasks_only)
                 batch_inputs.append(prompt)
+                count += args.request_batch_size
+            
             
             results = make_gpt3_requests(
                 engine=args.engine,
@@ -221,3 +223,5 @@ if __name__ == "__main__":
                 }) + "\n")
                 progress_bar.update(1)
             request_idx += 1
+            if count >= 10:
+                break
