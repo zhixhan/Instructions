@@ -203,7 +203,7 @@ if __name__ == "__main__":
                 all_metadata += [result] * len(new_instructions)
 
             for inst, metadata in zip(instructions, all_metadata):
-                with Pool(4) as p:
+                with Pool(8) as p:
                     rouge_scores = p.map(partial(scorer.score, inst), seed_instructions + machine_instructions)
                 rouge_scores = [score["rougeL"].fmeasure for score in rouge_scores]
                 # rouge_scores = [scorer.score(inst, e_inst)["rougeL"].fmeasure for e_inst in human_instructions + machine_instructions]
@@ -223,5 +223,5 @@ if __name__ == "__main__":
                 }) + "\n")
                 progress_bar.update(1)
             request_idx += 1
-            if count >= 1000:
-                break
+            #if count >= 1000:
+            #    break
