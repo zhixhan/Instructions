@@ -1,5 +1,5 @@
 
-batch_dir=data/gpt3_generations_original_tmp2/
+batch_dir=data/gpt3_generations_original_tmp3/
 
 for i in {1..1000}
 do
