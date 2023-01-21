@@ -166,12 +166,12 @@ if __name__ == "__main__":
     with open(os.path.join(args.batch_dir, "machine_generated_instructions.jsonl"), "a") as fout:
         instructions = []
         all_metadata = []
-        with open(os.path.join('data/gpt3_generations_original_tmp2', "machine_generated_instructions.jsonl"), "r") as fin:
+        with open(os.path.join('data/gpt3_generations_original_tmp3', "machine_generated_instructions.jsonl"), "r") as fin:
             for line in fin:
                 instruction_info = json.loads(line)
                 instructions.append(instruction_info["instruction"])
                 all_metadata.append(instruction_info["metadata"])
-
+        print("Mix dataset size: ", len(instructions))
         for inst, metadata in zip(instructions, all_metadata):
             with Pool(8) as p:
                 rouge_scores = p.map(partial(scorer.score, inst), seed_instructions + machine_instructions)
